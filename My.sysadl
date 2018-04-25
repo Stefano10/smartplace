@@ -1,0 +1,24 @@
+Model SysADLArchitecture;
+package SysADL.types {
+	value type Int {
+	}
+	value type Boolean {
+	}
+	value type String {
+	}
+	value type Void {
+	}
+	value type Real {
+	}
+}
+package SysADLports {
+	import SysADL.types;
+}
+package SysADLcomponents {
+	import SysADL.types;
+	import SysADLports;
+}
+package SysADLconnectors {
+	import SysADL.types;
+	import SysADLports;
+}
