@@ -10,7 +10,47 @@ package SysADL.types {
 	}
 	value type Real {
 	}
-}
+enum PresenceEN {
+		^true, ^false
+	}
+	dimension Temperature unit Celsius {
+		dimension = Temperature } value type Temperature {
+			unit = Celsius dimension = Temperature
+		}
+		value type CamInfo {
+			unit = Frame dimension = Image
+		}
+		dimension Image unit Frame {
+			dimension = Image } enum CommandEN {
+				On, Off
+			}
+			datatype CommandDT {
+				attributes Action : CommandEN desiredTemp : Temperature
+			}
+			datatype RoomInfoDT {
+				attributes RoomID : Int BuildingID : Int Date : DateDT PeopleNum : Int
+				ActualTemp : Temperature AirStatus : AirStatusEN Time : TimeDT
+			}
+			datatype DataTimeDT {
+				attributes year : Int month : Int day : Int hour : Int min : Int sec : Int
+			}
+			enum AirStatusEN {
+				On, Off
+			}
+			datatype DateDT {
+				attributes Year : Int Month : Int Day : Int
+			}
+			datatype TimeDT {
+				attributes Hour : Int Min : Int Sec : Int
+			}
+			datatype SchedulingDT {
+				attributes BuildingID : Int RoomID : Int StartTime : TimeDT EndTime :
+				TimeDT DesiredTemp : Temperature
+			}
+			datatype DBSmartPlaceDT extends RoomInfoDT {
+				attributes DBTable : RoomInfoDT
+			}
+		}
 package SysADLports {
 	import SysADL.types;
 }
