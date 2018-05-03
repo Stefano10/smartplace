@@ -167,6 +167,12 @@ boundary component def TemperatureSensorCP {
 				}
 			}
 			component def RoomSmartPlaceCP {
+				ports DBStore : SysADLports.RoomInfoOPT {
+				}
+				DBQuery : SysADLports.DBQueryIPT {
+				}
+				wCommand : SysADLports.CommandIPT {
+				}
 				configuration { components:
 					PresenceSensorCP : PresenceSensorCP {
 						using ports ActualPresence : SysADLports.PresenceOPT {
