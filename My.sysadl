@@ -53,7 +53,55 @@ enum PresenceEN {
 		}
 package SysADLports {
 	import SysADL.types;
-}
+port def TemperatureIPT {
+				flow in SysADL.types.Temperature
+			}
+			port def TemperatureOPT {
+				flow out SysADL.types.Temperature
+			}
+			port def PresenceIPT {
+				flow in SysADL.types.PresenceEN
+			}
+			port def PresenceOPT {
+				flow out SysADL.types.PresenceEN
+			}
+			port def CamInfoIPT {
+				flow in SysADL.types.CamInfo
+			}
+			port def CamInfoOPT {
+				flow out SysADL.types.CamInfo
+			}
+			port def PeopleNumIPT {
+				flow in SysADL.types.Int
+			}
+			port def PeopleNumOPT {
+				flow out SysADL.types.Int
+			}
+			port def CommandIPT {
+				flow in SysADL.types.CommandDT
+			}
+			port def CommandOPT {
+				flow out SysADL.types.CommandDT
+			}
+			port def RoomInfoIPT {
+				flow in SysADL.types.RoomInfoDT
+			}
+			port def RoomInfoOPT {
+				flow out SysADL.types.RoomInfoDT
+			}
+			port def SchedulingIPT {
+				flow in SysADL.types.SchedulingDT
+			}
+			port def SchedulingOPT {
+				flow out SysADL.types.SchedulingDT
+			}
+			port def DBSmartPlaceIPT {
+				flow in SysADL.types.DBSmartPlaceDT
+			}
+			port def DBSmartPlaceOPT {
+				flow out SysADL.types.DBSmartPlaceDT
+			}
+		}
 package SysADLcomponents {
 	import SysADL.types;
 	import SysADLports;
