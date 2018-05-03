@@ -50,6 +50,9 @@ enum PresenceEN {
 			datatype DBSmartPlaceDT extends RoomInfoDT {
 				attributes DBTable : RoomInfoDT
 			}
+		datatype DBQueryDT {
+				attributes StartDate : DateDT EndDate : DateDT
+			}
 		}
 package SysADLports {
 	import SysADL.types;
@@ -101,11 +104,71 @@ port def TemperatureIPT {
 			port def DBSmartPlaceOPT {
 				flow out SysADL.types.DBSmartPlaceDT
 			}
+		port def DBQueryIPT {
+				flow in SysADL.types.DBQueryDT
+			}
+			port def DBQueryOPT {
+				flow out SysADL.types.DBQueryDT
+			}
 		}
 package SysADLcomponents {
 	import SysADL.types;
 	import SysADLports;
-}
+boundary component def TemperatureSensorCP {
+				ports ActualTemp : SysADLports.TemperatureOPT {
+				}
+			}
+			boundary component def PresenceSensorCP {
+				ports ActualPresence : SysADLports.PresenceOPT {
+				}
+			}
+			boundary component def InfraRedCP {
+				ports nCommandControl : SysADLports.CommandIPT {
+				}
+				nCommandAir : SysADLports.CommandOPT {
+				}
+			}
+			boundary component def AirConditionerCP {
+				ports nCommand : SysADLports.CommandIPT {
+				}
+			}
+			component def RoomControlerCP {
+				ports sensorTemp : SysADLports.TemperatureIPT {
+				}
+				sensorPresence : SysADLports.PresenceIPT {
+				}
+				nPeople : SysADLports.PeopleNumIPT {
+				}
+				nCommand : SysADLports.CommandOPT {
+				}
+				historicDB : SysADLports.RoomInfoOPT {
+				}
+				nQueryDB : SysADLports.DBQueryOPT {
+				}
+				qResult : SysADLports.RoomInfoIPT {
+				}
+			}
+			component def CameraControlCP {
+				ports ActualImage : SysADLports.CamInfoIPT {
+				}
+				nPeople : SysADLports.PeopleNumOPT {
+				}
+			}
+			boundary component def DBRoomCP {
+				ports StoreInfo : SysADLports.RoomInfoIPT {
+				}
+				queryResult : SysADLports.RoomInfoOPT {
+				}
+				nQuery : SysADLports.DBQueryIPT {
+				}
+			}
+			boundary component def CameraCP {
+				ports nImage : SysADLports.CamInfoOPT {
+				}
+			}
+			component def RoomSmartPlaceCP {
+			}
+		}
 package SysADLconnectors {
 	import SysADL.types;
 	import SysADLports;
@@ -164,5 +227,12 @@ connector def PresenceCT {
 				~ ci2 : SysADLports.CamInfoIPT {
 				}
 				flows SysADL.types.CamInfo from ci1 to ci2
+			}
+		connector def DBQueryCT {
+				participants ~ q1 : SysADLports.DBQueryOPT {
+				}
+				~ qe : SysADLports.DBQueryIPT {
+				}
+				flows SysADL.types.DBQueryDT from q1 to qe
 			}
 		}
