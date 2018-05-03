@@ -2939,6 +2939,10 @@
               </children>
               <children xmi:type="notation:Node" xmi:id="_NYjmsE69EeiFgq5iEuKdEg" type="5004"/>
               <children xmi:type="notation:Node" xmi:id="_NYjmsU69EeiFgq5iEuKdEg" type="7003">
+                <children xmi:type="notation:Node" xmi:id="_LppDcE7hEeiFgq5iEuKdEg" type="3010" element="_LpMXgE7hEeiFgq5iEuKdEg">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_LppDcU7hEeiFgq5iEuKdEg" fontName=".AppleSystemUIFont" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_LppDck7hEeiFgq5iEuKdEg"/>
+                </children>
                 <styles xmi:type="notation:SortingStyle" xmi:id="_NYjmsk69EeiFgq5iEuKdEg"/>
                 <styles xmi:type="notation:FilteringStyle" xmi:id="_NYjms069EeiFgq5iEuKdEg"/>
               </children>
@@ -3041,6 +3045,10 @@
             <children xmi:type="notation:Node" xmi:id="_ogG0EE7DEeiFgq5iEuKdEg" type="3009" element="_ofQfgE7DEeiFgq5iEuKdEg">
               <children xmi:type="notation:Node" xmi:id="_ogG0E07DEeiFgq5iEuKdEg" type="5004"/>
               <children xmi:type="notation:Node" xmi:id="_ogHbIE7DEeiFgq5iEuKdEg" type="7003">
+                <children xmi:type="notation:Node" xmi:id="__tHnEE7gEeiFgq5iEuKdEg" type="3010" element="__sn30E7gEeiFgq5iEuKdEg">
+                  <styles xmi:type="notation:FontStyle" xmi:id="__tHnEU7gEeiFgq5iEuKdEg" fontName=".AppleSystemUIFont" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="__tHnEk7gEeiFgq5iEuKdEg"/>
+                </children>
                 <styles xmi:type="notation:SortingStyle" xmi:id="_ogHbIU7DEeiFgq5iEuKdEg"/>
                 <styles xmi:type="notation:FilteringStyle" xmi:id="_ogHbIk7DEeiFgq5iEuKdEg"/>
               </children>
@@ -3159,7 +3167,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_NYLzQE69EeiFgq5iEuKdEg" name="&lt;&lt;component>>&#xA;RoomControlerCP">
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_NYLzQE69EeiFgq5iEuKdEg" name="&lt;&lt;component>>&#xA;RoomControlerCP" tooltipText="Component RoomControlerCP">
         <target xmi:type="sysADL_Sintax:ComponentDef" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomControlerCP']"/>
         <semanticElements xmi:type="sysADL_Sintax:ComponentDef" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomControlerCP']"/>
         <ownedBorderedNodes xmi:type="diagram:DNode" xmi:id="_SlU0QE7CEeiFgq5iEuKdEg" name="sensorTemp : TemperatureIPT [1,1] " tooltipText="Port sensorTemp" width="2" height="2" resizeKind="NSEW">
@@ -3242,10 +3250,18 @@
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
-        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_NYNocE69EeiFgq5iEuKdEg" iconPath="/SysADL.viewpoints/icons/Component.gif" borderSize="1" borderSizeComputationExpression="1">
-          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@conditionnalStyles.0/@style"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_LpIGEE7hEeiFgq5iEuKdEg" iconPath="/SysADL.viewpoints/icons/Component.gif" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="GradientTopToBottom" foregroundColor="194,239,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_LpMXgE7hEeiFgq5iEuKdEg" name="Configuration">
+          <target xmi:type="sysADL_Sintax:Configuration" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomControlerCP']/@composite"/>
+          <semanticElements xmi:type="sysADL_Sintax:Configuration" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomControlerCP']/@composite"/>
+          <ownedStyle xmi:type="diagram:Dot" xmi:id="_LpMXgU7hEeiFgq5iEuKdEg" iconPath="/SysADL.viewpoints/icons/Configuration.gif">
+            <description xmi:type="style:DotDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@subNodeMappings[name='BDD.CompDef.Configuration']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@subNodeMappings[name='BDD.CompDef.Configuration']"/>
+        </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_NlGN4E69EeiFgq5iEuKdEg" name="&lt;&lt;component>>&#xA;CameraControlCP">
         <target xmi:type="sysADL_Sintax:ComponentDef" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='CameraControlCP']"/>
@@ -3337,16 +3353,24 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_ofQfgE7DEeiFgq5iEuKdEg" name="&lt;&lt;component>>&#xA;RoomSmartPlaceCP">
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_ofQfgE7DEeiFgq5iEuKdEg" name="&lt;&lt;component>>&#xA;RoomSmartPlaceCP" tooltipText="Component RoomSmartPlaceCP">
         <target xmi:type="sysADL_Sintax:ComponentDef" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomSmartPlaceCP']"/>
         <semanticElements xmi:type="sysADL_Sintax:ComponentDef" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomSmartPlaceCP']"/>
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
-        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_ofZpcE7DEeiFgq5iEuKdEg" iconPath="/SysADL.viewpoints/icons/Component.gif" borderSize="1" borderSizeComputationExpression="1">
-          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@conditionnalStyles.0/@style"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="__sWyEE7gEeiFgq5iEuKdEg" iconPath="/SysADL.viewpoints/icons/Component.gif" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="GradientTopToBottom" foregroundColor="194,239,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="__sn30E7gEeiFgq5iEuKdEg" name="Configuration">
+          <target xmi:type="sysADL_Sintax:Configuration" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomSmartPlaceCP']/@composite"/>
+          <semanticElements xmi:type="sysADL_Sintax:Configuration" href="My.sysadl#//@packages[name='SysADLcomponents']/@architectures[name='RoomSmartPlaceCP']/@composite"/>
+          <ownedStyle xmi:type="diagram:Dot" xmi:id="__soe4E7gEeiFgq5iEuKdEg" iconPath="/SysADL.viewpoints/icons/Configuration.gif">
+            <description xmi:type="style:DotDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@subNodeMappings[name='BDD.CompDef.Configuration']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ComponentDef']/@subNodeMappings[name='BDD.CompDef.Configuration']"/>
+        </ownedElements>
       </ownedDiagramElements>
     </ownedDiagramElements>
     <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']"/>
