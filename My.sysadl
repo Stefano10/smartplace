@@ -147,14 +147,12 @@ boundary component def TemperatureSensorCP {
 				}
 				qResult : SysADLports.RoomInfoIPT {
 				}
-				configuration { }
 			}
 			component def CameraControlCP {
 				ports ActualImage : SysADLports.CamInfoIPT {
 				}
 				nPeople : SysADLports.PeopleNumOPT {
 				}
-				configuration { }
 			}
 			boundary component def DBRoomCP {
 				ports StoreInfo : SysADLports.RoomInfoIPT {
@@ -169,7 +167,50 @@ boundary component def TemperatureSensorCP {
 				}
 			}
 			component def RoomSmartPlaceCP {
-				configuration { }
+				configuration { components:
+					PresenceSensorCP : PresenceSensorCP {
+						using ports ActualPresence : SysADLports.PresenceOPT {
+						}
+					}
+					RoomControlerCP : RoomControlerCP {
+						using ports sensorTemp : SysADLports.TemperatureIPT {
+						}
+						sensorPresence : SysADLports.PresenceIPT {
+						}
+						nPeople : SysADLports.PeopleNumIPT {
+						}
+						nCommand : SysADLports.CommandOPT {
+						}
+						historicDB : SysADLports.RoomInfoOPT {
+						}
+						nQueryDB : SysADLports.DBQueryOPT {
+						}
+						qResult : SysADLports.RoomInfoIPT {
+						}
+					}
+					TemperatureSensorCP : TemperatureSensorCP {
+						using ports ActualTemp : SysADLports.TemperatureOPT {
+						}
+					}
+					CameraCP : CameraCP {
+						using ports nImage : SysADLports.CamInfoOPT {
+						}
+					}
+					CameraControlCP : CameraControlCP {
+						using ports ActualImage : SysADLports.CamInfoIPT {
+						}
+						nPeople : SysADLports.PeopleNumOPT {
+						}
+					}
+					connectors:
+					presence : SysADLconnectors.PresenceCT bindings
+					PresenceSensorCP.ActualPresence = RoomControlerCP.sensorPresence temp :
+					SysADLconnectors.TemperatureCT bindings TemperatureSensorCP.ActualTemp =
+					RoomControlerCP.sensorTemp image : SysADLconnectors.CamInfoCT bindings
+					CameraCP.nImage = CameraControlCP.ActualImage nPeople :
+					SysADLconnectors.PeopleNumCT bindings CameraControlCP.nPeople =
+					RoomControlerCP.nPeople
+				}
 			}
 		}
 package SysADLconnectors {
