@@ -712,7 +712,7 @@
                 <styles xmi:type="notation:FilteringStyle" xmi:id="_mGKv8k69EeiFgq5iEuKdEg"/>
               </children>
               <styles xmi:type="notation:ShapeStyle" xmi:id="_mGKI4U69EeiFgq5iEuKdEg" fontName=".AppleSystemUIFont" fontHeight="8"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mGKI4k69EeiFgq5iEuKdEg" x="129" y="-54"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mGKI4k69EeiFgq5iEuKdEg" x="517" y="232"/>
             </children>
             <children xmi:type="notation:Node" xmi:id="_CzMDIE7AEeiFgq5iEuKdEg" type="3009" element="_Cw6LME7AEeiFgq5iEuKdEg">
               <children xmi:type="notation:Node" xmi:id="_CzMqME7AEeiFgq5iEuKdEg" type="5004"/>
@@ -870,9 +870,9 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.Unit']/@subNodeMappings[name='BDD.Unit.Dimension']"/>
         </ownedElements>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_ESCEUE4_Eeia7q6l8Re8TQ" name="&lt;&lt;value type>>&#xA;CamInfo">
-        <target xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='CamInfo']"/>
-        <semanticElements xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='CamInfo']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_ESCEUE4_Eeia7q6l8Re8TQ" name="&lt;&lt;value type>>&#xA;CamInfoVT">
+        <target xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='CamInfoVT']"/>
+        <semanticElements xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='CamInfoVT']"/>
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
@@ -961,7 +961,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.DataTypeDef']/@subNodeMappings[name='BDD.DataTypeAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_Axm1EE5AEeia7q6l8Re8TQ" name="desiredTemp:Temperature">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_Axm1EE5AEeia7q6l8Re8TQ" name="desiredTemp:TemperatureVT">
           <target xmi:type="sysADL_Sintax:TypeUse" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='CommandDT']/@dataTypeAttributes.1"/>
           <semanticElements xmi:type="sysADL_Sintax:TypeUse" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='CommandDT']/@dataTypeAttributes.1"/>
           <ownedStyle xmi:type="diagram:Dot" xmi:id="_AxoqQE5AEeia7q6l8Re8TQ" showIcon="false">
@@ -1012,7 +1012,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.DataTypeDef']/@subNodeMappings[name='BDD.DataTypeAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_I65lgE5CEeia7q6l8Re8TQ" name="ActualTemp:Temperature">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_I65lgE5CEeia7q6l8Re8TQ" name="ActualTemp:TemperatureVT">
           <target xmi:type="sysADL_Sintax:TypeUse" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='RoomInfoDT']/@dataTypeAttributes.4"/>
           <semanticElements xmi:type="sysADL_Sintax:TypeUse" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='RoomInfoDT']/@dataTypeAttributes.4"/>
           <ownedStyle xmi:type="diagram:Dot" xmi:id="_I66MkE5CEeia7q6l8Re8TQ" showIcon="false">
@@ -1235,7 +1235,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.DataTypeDef']/@subNodeMappings[name='BDD.DataTypeAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_3b_zwE5DEeia7q6l8Re8TQ" name="DesiredTemp:Temperature">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_3b_zwE5DEeia7q6l8Re8TQ" name="DesiredTemp:TemperatureVT">
           <target xmi:type="sysADL_Sintax:TypeUse" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='SchedulingDT']/@dataTypeAttributes.4"/>
           <semanticElements xmi:type="sysADL_Sintax:TypeUse" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='SchedulingDT']/@dataTypeAttributes.4"/>
           <ownedStyle xmi:type="diagram:Dot" xmi:id="_3b_zwU5DEeia7q6l8Re8TQ" showIcon="false">
@@ -1263,9 +1263,12 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.DataTypeDef']/@subNodeMappings[name='BDD.DataTypeAttribute']"/>
         </ownedElements>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_mFKqYE69EeiFgq5iEuKdEg" name="&lt;&lt;value type>>&#xA;Temperature">
-        <target xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='Temperature']"/>
-        <semanticElements xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='Temperature']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_mFKqYE69EeiFgq5iEuKdEg" name="&lt;&lt;value type>>&#xA;TemperatureVT">
+        <target xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='TemperatureVT']"/>
+        <semanticElements xmi:type="sysADL_Sintax:ValueTypeDef" href="My.sysadl#//@packages[name='SysADL.types']/@architectures[name='TemperatureVT']"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
         <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_mFLRcE69EeiFgq5iEuKdEg" showIcon="false" iconPath="/SysADL.viewpoints/icons/DataType.gif" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="GradientTopToBottom" foregroundColor="126,177,254">
           <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/SysADL.viewpoints/description/SysADL_vp.odesign#//@ownedViewpoints[name='SysADL.Structural']/@ownedRepresentations[name='SysADL.BDD']/@defaultLayer/@containerMappings[name='BDD']/@subContainerMappings[name='BDD.ValueTypeDef']/@style"/>
         </ownedStyle>

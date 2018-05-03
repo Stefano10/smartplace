@@ -14,10 +14,10 @@ enum PresenceEN {
 		^true, ^false
 	}
 	dimension Temperature unit Celsius {
-		dimension = Temperature } value type Temperature {
+		dimension = Temperature } value type TemperatureVT {
 			unit = Celsius dimension = Temperature
 		}
-		value type CamInfo {
+		value type CamInfoVT {
 			unit = Frame dimension = Image
 		}
 		dimension Image unit Frame {
@@ -25,11 +25,11 @@ enum PresenceEN {
 				On, Off
 			}
 			datatype CommandDT {
-				attributes Action : CommandEN desiredTemp : Temperature
+				attributes Action : CommandEN desiredTemp : TemperatureVT
 			}
 			datatype RoomInfoDT {
 				attributes RoomID : Int BuildingID : Int Date : DateDT PeopleNum : Int
-				ActualTemp : Temperature AirStatus : AirStatusEN Time : TimeDT
+				ActualTemp : TemperatureVT AirStatus : AirStatusEN Time : TimeDT
 			}
 			datatype DataTimeDT {
 				attributes year : Int month : Int day : Int hour : Int min : Int sec : Int
@@ -45,7 +45,7 @@ enum PresenceEN {
 			}
 			datatype SchedulingDT {
 				attributes BuildingID : Int RoomID : Int StartTime : TimeDT EndTime :
-				TimeDT DesiredTemp : Temperature
+				TimeDT DesiredTemp : TemperatureVT
 			}
 			datatype DBSmartPlaceDT extends RoomInfoDT {
 				attributes DBTable : RoomInfoDT
@@ -57,10 +57,10 @@ enum PresenceEN {
 package SysADLports {
 	import SysADL.types;
 port def TemperatureIPT {
-				flow in SysADL.types.Temperature
+				flow in SysADL.types.TemperatureVT
 			}
 			port def TemperatureOPT {
-				flow out SysADL.types.Temperature
+				flow out SysADL.types.TemperatureVT
 			}
 			port def PresenceIPT {
 				flow in SysADL.types.PresenceEN
@@ -69,10 +69,10 @@ port def TemperatureIPT {
 				flow out SysADL.types.PresenceEN
 			}
 			port def CamInfoIPT {
-				flow in SysADL.types.CamInfo
+				flow in SysADL.types.CamInfoVT
 			}
 			port def CamInfoOPT {
-				flow out SysADL.types.CamInfo
+				flow out SysADL.types.CamInfoVT
 			}
 			port def PeopleNumIPT {
 				flow in SysADL.types.Int
@@ -184,7 +184,7 @@ connector def PresenceCT {
 				}
 				~ t2 : SysADLports.TemperatureIPT {
 				}
-				flows SysADL.types.Temperature from t1 to t2
+				flows SysADL.types.TemperatureVT from t1 to t2
 			}
 			connector def SchedulingCT {
 				participants ~ ns1 : SysADLports.SchedulingOPT {
@@ -226,7 +226,7 @@ connector def PresenceCT {
 				}
 				~ ci2 : SysADLports.CamInfoIPT {
 				}
-				flows SysADL.types.CamInfo from ci1 to ci2
+				flows SysADL.types.CamInfoVT from ci1 to ci2
 			}
 		connector def DBQueryCT {
 				participants ~ q1 : SysADLports.DBQueryOPT {
