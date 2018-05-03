@@ -109,4 +109,60 @@ package SysADLcomponents {
 package SysADLconnectors {
 	import SysADL.types;
 	import SysADLports;
-}
+connector def PresenceCT {
+				participants ~ p1 : SysADLports.PresenceOPT {
+				}
+				~ p2 : SysADLports.PresenceIPT {
+				}
+				flows SysADL.types.PresenceEN from p1 to p2
+			}
+			connector def TemperatureCT {
+				participants ~ t1 : SysADLports.TemperatureOPT {
+				}
+				~ t2 : SysADLports.TemperatureIPT {
+				}
+				flows SysADL.types.Temperature from t1 to t2
+			}
+			connector def SchedulingCT {
+				participants ~ ns1 : SysADLports.SchedulingOPT {
+				}
+				~ ns2 : SysADLports.SchedulingIPT {
+				}
+				flows SysADL.types.SchedulingDT from ns1 to ns2
+			}
+			connector def RoomInfoCT {
+				participants ~ ri1 : SysADLports.RoomInfoOPT {
+				}
+				~ ri2 : SysADLports.RoomInfoIPT {
+				}
+				flows SysADL.types.RoomInfoDT from ri1 to ri2
+			}
+			connector def PeopleNumCT {
+				participants ~ np1 : SysADLports.PeopleNumOPT {
+				}
+				~ np2 : SysADLports.PeopleNumIPT {
+				}
+				flows SysADL.types.Int from np1 to np2
+			}
+			connector def DBSmartPlaceCT {
+				participants ~ db1 : SysADLports.DBSmartPlaceOPT {
+				}
+				~ db2 : SysADLports.DBSmartPlaceIPT {
+				}
+				flows SysADL.types.DBSmartPlaceDT from db1 to db2
+			}
+			connector def CommandCT {
+				participants ~ nc1 : SysADLports.CommandOPT {
+				}
+				~ nc2 : SysADLports.CommandIPT {
+				}
+				flows SysADL.types.CommandDT from nc1 to nc2
+			}
+			connector def CamInfoCT {
+				participants ~ ci1 : SysADLports.CamInfoOPT {
+				}
+				~ ci2 : SysADLports.CamInfoIPT {
+				}
+				flows SysADL.types.CamInfo from ci1 to ci2
+			}
+		}
