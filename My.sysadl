@@ -202,6 +202,24 @@ boundary component def TemperatureSensorCP {
 						nPeople : SysADLports.PeopleNumOPT {
 						}
 					}
+					InfraRedCP : InfraRedCP {
+						using ports nCommandControl : SysADLports.CommandIPT {
+						}
+						nCommandAir : SysADLports.CommandOPT {
+						}
+					}
+					AirConditionerCP : AirConditionerCP {
+						using ports nCommand : SysADLports.CommandIPT {
+						}
+					}
+					DBRoomCP : DBRoomCP {
+						using ports StoreInfo : SysADLports.RoomInfoIPT {
+						}
+						queryResult : SysADLports.RoomInfoOPT {
+						}
+						nQuery : SysADLports.DBQueryIPT {
+						}
+					}
 					connectors:
 					presence : SysADLconnectors.PresenceCT bindings
 					PresenceSensorCP.ActualPresence = RoomControlerCP.sensorPresence temp :
@@ -210,6 +228,14 @@ boundary component def TemperatureSensorCP {
 					CameraCP.nImage = CameraControlCP.ActualImage nPeople :
 					SysADLconnectors.PeopleNumCT bindings CameraControlCP.nPeople =
 					RoomControlerCP.nPeople
+				command : SysADLconnectors.CommandCT bindings InfraRedCP.nCommandAir =
+					AirConditionerCP.nCommand command : SysADLconnectors.CommandCT bindings
+					RoomControlerCP.nCommand = InfraRedCP.nCommandControl log :
+					SysADLconnectors.RoomInfoCT bindings RoomControlerCP.historicDB =
+					DBRoomCP.StoreInfo query : SysADLconnectors.DBQueryCT bindings
+					RoomControlerCP.nQueryDB = DBRoomCP.nQuery qresult :
+					SysADLconnectors.RoomInfoCT bindings DBRoomCP.queryResult =
+					RoomControlerCP.qResult
 				}
 			}
 		}
