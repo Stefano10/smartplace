@@ -143,15 +143,15 @@ boundary component def TemperatureSensorCP {
 				}
 				historicDB : SysADLports.RoomInfoOPT {
 				}
-				
-				
-			queryDB : SysADLports.DBQueryIPT {
+				nQueryDB : SysADLports.DBQueryOPT {
+				}
+				queryDB : SysADLports.DBQueryIPT {
 				}
 				rQuery : SysADLports.DBSmartPlaceOPT {
 				}
-			scheduling : SysADLports.SchedulingIPT {
+				scheduling : SysADLports.SchedulingIPT {
 				}
-				rdbQuery : SysADLports.DBQueryIPT {
+				rdbQuery : SysADLports.DBSmartPlaceIPT {
 				}
 			}
 			component def CameraControlCP {
@@ -183,7 +183,85 @@ boundary component def TemperatureSensorCP {
 				}
 				rQuery : SysADLports.DBSmartPlaceOPT {
 				}
-				configuration { }
+				configuration { components:
+					TemperatureSensorCP : TemperatureSensorCP {
+						using ports ActualTemp : SysADLports.TemperatureOPT {
+						}
+					}
+					PresenceSensorCP : PresenceSensorCP {
+						using ports ActualPresence : SysADLports.PresenceOPT {
+						}
+					}
+					CameraControlCP : CameraControlCP {
+						using ports ActualImage : SysADLports.CamInfoIPT {
+						}
+						nPeople : SysADLports.PeopleNumOPT {
+						}
+					}
+					CameraCP : CameraCP {
+						using ports nImage : SysADLports.CamInfoOPT {
+						}
+					}
+					RoomControlerCP : RoomControlerCP {
+						using ports sensorTemp : SysADLports.TemperatureIPT {
+						}
+						sensorPresence : SysADLports.PresenceIPT {
+						}
+						nPeople : SysADLports.PeopleNumIPT {
+						}
+						nCommand : SysADLports.CommandOPT {
+						}
+						historicDB : SysADLports.RoomInfoOPT {
+						}
+						nQueryDB : SysADLports.DBQueryOPT {
+						}
+						queryDB : SysADLports.DBQueryIPT {
+						}
+						rQuery : SysADLports.DBSmartPlaceOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+						rdbQuery : SysADLports.DBSmartPlaceIPT {
+						}
+					}
+					InfraRedCP : InfraRedCP {
+						using ports nCommandControl : SysADLports.CommandIPT {
+						}
+						nCommandAir : SysADLports.CommandOPT {
+						}
+					}
+					AirConditionerCP : AirConditionerCP {
+						using ports nCommand : SysADLports.CommandIPT {
+						}
+					}
+					DBRoomCP : DBRoomCP {
+						using ports StoreInfo : SysADLports.RoomInfoIPT {
+						}
+						nQuery : SysADLports.DBQueryIPT {
+						}
+						rQuery : SysADLports.DBSmartPlaceOPT {
+						}
+					}
+					connectors:
+					controlCam : SysADLconnectors.CamInfoCT bindings CameraCP.nImage =
+					CameraControlCP.ActualImage temperature : SysADLconnectors.TemperatureCT
+					bindings TemperatureSensorCP.ActualTemp = RoomControlerCP.sensorTemp
+					presence : SysADLconnectors.PresenceCT bindings
+					PresenceSensorCP.ActualPresence = RoomControlerCP.sensorPresence nPeople :
+					SysADLconnectors.PeopleNumCT bindings CameraControlCP.nPeople =
+					RoomControlerCP.nPeople Command : SysADLconnectors.CommandCT bindings
+					RoomControlerCP.nCommand = InfraRedCP.nCommandControl Command :
+					SysADLconnectors.CommandCT bindings InfraRedCP.nCommandAir =
+					AirConditionerCP.nCommand DBInfo : SysADLconnectors.RoomInfoCT bindings
+					RoomControlerCP.historicDB = DBRoomCP.StoreInfo
+				q : SysADLconnectors.DBQueryCT bindings RoomControlerCP.nQueryDB =
+					DBRoomCP.nQuery
+				rdb : SysADLconnectors.DBSmartPlaceCT bindings DBRoomCP.rQuery =
+					RoomControlerCP.rdbQuery delegations:
+					RoomControlerCP.historicDB to DBStore RoomControlerCP.rQuery to rQuery
+					RoomControlerCP.scheduling to scheduling RoomControlerCP.queryDB to
+					DBQuery
+				}
 			}
 		}
 package SysADLconnectors {
