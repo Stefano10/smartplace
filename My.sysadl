@@ -143,15 +143,7 @@ boundary component def TemperatureSensorCP {
 				}
 				historicDB : SysADLports.RoomInfoOPT {
 				}
-				nQueryDB : SysADLports.DBQueryOPT {
-				}
-				queryDB : SysADLports.DBQueryIPT {
-				}
-				rQuery : SysADLports.DBSmartPlaceOPT {
-				}
 				scheduling : SysADLports.SchedulingIPT {
-				}
-				rdbQuery : SysADLports.DBSmartPlaceIPT {
 				}
 			}
 			component def CameraControlCP {
@@ -163,11 +155,6 @@ boundary component def TemperatureSensorCP {
 			boundary component def DBRoomCP {
 				ports StoreInfo : SysADLports.RoomInfoIPT {
 				}
-				
-				nQuery : SysADLports.DBQueryIPT {
-				}
-			rQuery : SysADLports.DBSmartPlaceOPT {
-				}
 			}
 			boundary component def CameraCP {
 				ports nImage : SysADLports.CamInfoOPT {
@@ -175,13 +162,8 @@ boundary component def TemperatureSensorCP {
 			}
 			component def RoomSmartPlaceCP {
 				ports DBStore : SysADLports.RoomInfoOPT {
-				}
-				DBQuery : SysADLports.DBQueryIPT {
-				}
-				
+				}			
 				scheduling : SysADLports.SchedulingIPT {
-				}
-				rQuery : SysADLports.DBSmartPlaceOPT {
 				}
 				configuration { components:
 					TemperatureSensorCP : TemperatureSensorCP {
@@ -213,15 +195,7 @@ boundary component def TemperatureSensorCP {
 						}
 						historicDB : SysADLports.RoomInfoOPT {
 						}
-						nQueryDB : SysADLports.DBQueryOPT {
-						}
-						queryDB : SysADLports.DBQueryIPT {
-						}
-						rQuery : SysADLports.DBSmartPlaceOPT {
-						}
 						scheduling : SysADLports.SchedulingIPT {
-						}
-						rdbQuery : SysADLports.DBSmartPlaceIPT {
 						}
 					}
 					InfraRedCP : InfraRedCP {
@@ -237,10 +211,6 @@ boundary component def TemperatureSensorCP {
 					DBRoomCP : DBRoomCP {
 						using ports StoreInfo : SysADLports.RoomInfoIPT {
 						}
-						nQuery : SysADLports.DBQueryIPT {
-						}
-						rQuery : SysADLports.DBSmartPlaceOPT {
-						}
 					}
 					connectors:
 					controlCam : SysADLconnectors.CamInfoCT bindings CameraCP.nImage =
@@ -254,13 +224,55 @@ boundary component def TemperatureSensorCP {
 					SysADLconnectors.CommandCT bindings InfraRedCP.nCommandAir =
 					AirConditionerCP.nCommand DBInfo : SysADLconnectors.RoomInfoCT bindings
 					RoomControlerCP.historicDB = DBRoomCP.StoreInfo
-				q : SysADLconnectors.DBQueryCT bindings RoomControlerCP.nQueryDB =
-					DBRoomCP.nQuery
-				rdb : SysADLconnectors.DBSmartPlaceCT bindings DBRoomCP.rQuery =
-					RoomControlerCP.rdbQuery delegations:
-					RoomControlerCP.historicDB to DBStore RoomControlerCP.rQuery to rQuery
-					RoomControlerCP.scheduling to scheduling RoomControlerCP.queryDB to
-					DBQuery
+					delegations:
+					RoomControlerCP.historicDB to DBStore 
+					RoomControlerCP.scheduling to scheduling
+				}
+			}
+		component def BuildingSmartPlaceCP {
+				ports Wscheduling : SysADLports.SchedulingIPT {
+				}
+				Rscheduling : SysADLports.SchedulingOPT {
+				}
+				Rstore : SysADLports.RoomInfoIPT {
+				}
+				rwStore : SysADLports.RoomInfoOPT {
+				}
+				configuration{
+					components:
+					DBBuildingCP : DBBuildingCP {
+						using ports StoreInfo : SysADLports.RoomInfoIPT {
+						}
+					}
+					BuildingControlerCP : BuildingControlerCP {
+						using ports s : SysADLports.SchedulingIPT {
+						}
+						s2 : SysADLports.SchedulingOPT {
+						}
+						st1 : SysADLports.RoomInfoIPT {
+						}
+						st2 : SysADLports.RoomInfoOPT {
+						}
+					}
+					connectors:
+					storeBD : SysADLconnectors.RoomInfoCT bindings BuildingControlerCP.st2 =
+					DBBuildingCP.StoreInfo delegations:
+					BuildingControlerCP.s2 to Rscheduling BuildingControlerCP.s to Wscheduling
+					BuildingControlerCP.st1 to Rstore BuildingControlerCP.st2 to rwStore
+				}
+			}
+			component def DBBuildingCP {
+				ports StoreInfo : SysADLports.RoomInfoIPT {
+				}
+			}
+		component def BuildingControlerCP {
+				ports s : SysADLports.SchedulingIPT {
+				}
+				s2 : SysADLports.SchedulingOPT {
+				}
+				st1 : SysADLports.RoomInfoIPT {
+				}
+				st2 : SysADLports.RoomInfoOPT {
 				}
 			}
 		}
