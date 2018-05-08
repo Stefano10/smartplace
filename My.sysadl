@@ -364,6 +364,30 @@ connector def PresenceCT {
 			Requirement AlterarTemperatura ( 1.5 ) {
 				text =
 				"O controlador deve ser capaz de acionar o ar condicionado a fim de ajustar a temperatura do ambiente para a temperatura desejada"
+			Requirement AumentarTemperatura ( 1.5.1 ) {
+					text =
+					"O controlador deve acionar o ar condicionado para que a temperatura seja aumentada, a fim de atingir a temperatura desejada para o ambiente"
+				}
+				Requirement DiminuirTemperatura ( 1.5.2 ) {
+					text =
+					"O controlador deve acionar o ar condicionado para que a temperatura seja diminuída, a fim de atingir a temperatura desejada para o ambiente"
+				}
+			}
+			Requirement LigarArCondicionado ( 1.6 ) {
+				text =
+				"O sistema deverá ser capaz de iniciar o funcionamento do sistema de ar condicionado ao ser escolhida essa opção via controlador do usuário ou portal web."
+			}
+			Requirement DesligarArCondicionado ( 1.7 ) {
+				text =
+				"O sistema deverá ser capaz de encerrar o funcionamento do sistema de ar condicionado  ao ser escolhida essa opção via controlador do usuário ou portal web."
+			}
+			Requirement EnviarDadosSalaControlador ( 1.8 ) {
+				text =
+				"O sistema deverá armazenar as informações sobre o seu funcionamento, temperaturas, quantidade de pessoas presentes, e todos os dados pertinentes às mudanças do sistema para fim de consulta e confecção dos relatórios de gestão do sistema.(Informações vão compor o log do sistema, e este caso de uso será incluído por todos os outros)"
+			}
+			Requirement DecidirAcordoSistemaReserva ( 1.9 ) {
+				Requirement ComunicarSistemaReservas ( 1.9.1 ) {
+				}
 			}
 		}
 		Requirement VerificarPresencaPeloSensorPresenca ( 1.4.1 ) {
@@ -375,14 +399,4 @@ connector def PresenceCT {
 			text =
 			"O sistema deverá ser capaz de verificar se existe presença na sala, a partir da imagem enviada pela câmera de vídeo. O sistema deverá retornar um inteiro positivo que indica a presença de pessoas na sala ou \"zero\" para não presença de pessoas."
 			derive ControlarArCondicionado.VerificarPresenca;
-		}
-		Requirement AumentarTemperatura ( 1.5.1 ) {
-			text =
-			"O controlador deve acionar o ar condicionado para que a temperatura seja aumentada, a fim de atingir a temperatura desejada para o ambiente."
-			derive ControlarArCondicionado.AlterarTemperatura;
-		}
-		Requirement DiminuirTemperatura ( 1.5.2 ) {
-			text =
-			"O controlador deve acionar o ar condicionado para que a temperatura seja diminuída, a fim de atingir a temperatura desejada para o ambiente."
-			derive ControlarArCondicionado.AlterarTemperatura;
 		}
