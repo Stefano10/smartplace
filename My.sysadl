@@ -51,7 +51,7 @@ enum PresenceEN {
 				attributes DBTable : RoomInfoDT
 			}
 		datatype DBQueryDT {
-				attributes StartDate : DateDT EndDate : DateDT
+				attributes  queryDB : DateDT
 			}
 		datatype UserDataDT {
 				attributes Login : String Password : String RegistrationNumber : Int Name :
@@ -165,7 +165,7 @@ boundary component def TemperatureSensorCP {
 				ports nCommand : SysADLports.CommandIPT {
 				}
 			}
-			component def RoomControlerCP {
+			component def RoomControllerCP {
 				ports sensorTemp : SysADLports.TemperatureIPT {
 				}
 				sensorPresence : SysADLports.PresenceIPT {
@@ -217,7 +217,7 @@ boundary component def TemperatureSensorCP {
 						using ports nImage : SysADLports.CamInfoOPT {
 						}
 					}
-					RoomControlerCP : RoomControlerCP {
+					RoomControlerCP : RoomControllerCP {
 						using ports sensorTemp : SysADLports.TemperatureIPT {
 						}
 						sensorPresence : SysADLports.PresenceIPT {
@@ -277,7 +277,7 @@ boundary component def TemperatureSensorCP {
 						using ports StoreInfo : SysADLports.RoomInfoIPT {
 						}
 					}
-					BuildingControlerCP : BuildingControlerCP {
+					BuildingControlerCP : BuildingControllerCP {
 						using ports s : SysADLports.SchedulingIPT {
 						}
 						s2 : SysADLports.SchedulingOPT {
@@ -294,11 +294,11 @@ boundary component def TemperatureSensorCP {
 					BuildingControlerCP.st1 to Rstore BuildingControlerCP.st2 to rwStore
 				}
 			}
-			component def DBBuildingCP {
+			boundary component def DBBuildingCP {
 				ports StoreInfo : SysADLports.RoomInfoIPT {
 				}
 			}
-		component def BuildingControlerCP {
+		component def BuildingControllerCP {
 				ports s : SysADLports.SchedulingIPT {
 				}
 				s2 : SysADLports.SchedulingOPT {
@@ -306,6 +306,252 @@ boundary component def TemperatureSensorCP {
 				st1 : SysADLports.RoomInfoIPT {
 				}
 				st2 : SysADLports.RoomInfoOPT {
+				}
+			}
+		component def WebSmartPlaceCP {
+				ports scheduling : SysADLports.SchedulingOPT {
+				}
+				storeBD : SysADLports.RoomInfoIPT {
+				}
+				configuration{
+					components:
+					WebSmartPlaceControllerCP : WebSmartPlaceControllerCP {
+						using ports scheduling : SysADLports.SchedulingOPT {
+						}
+						stroreDB : SysADLports.RoomInfoIPT {
+						}
+						store : SysADLports.RoomInfoOPT {
+						}
+						qFunc : SysADLports.DBQueryOPT {
+						}
+						rFunc : SysADLports.DBSmartPlaceIPT {
+						}
+						u : SysADLports.UserDataOPT {
+						}
+						b : SysADLports.BuildingDataOPT {
+						}
+						r : SysADLports.RoomDataOPT {
+						}
+						qConfig : SysADLports.DBQueryOPT {
+						}
+						rConfig : SysADLports.DBSmartPlaceIPT {
+						}
+					}
+					DBFunctionalCP : DBFunctionalCP {
+						using ports store : SysADLports.RoomInfoIPT {
+						}
+						q : SysADLports.DBQueryIPT {
+						}
+						result : SysADLports.DBSmartPlaceOPT {
+						}
+					}
+					DBConfigCP : DBConfigCP {
+						using ports u : SysADLports.UserDataIPT {
+						}
+						b : SysADLports.BuildingDataIPT {
+						}
+						r : SysADLports.RoomDataIPT {
+						}
+						q : SysADLports.DBQueryIPT {
+						}
+						res : SysADLports.DBSmartPlaceOPT {
+						}
+					}
+					connectors:
+					q : SysADLconnectors.DBQueryCT bindings WebSmartPlaceControllerCP.qFunc =
+					DBFunctionalCP.q r : SysADLconnectors.DBSmartPlaceCT bindings
+					DBFunctionalCP.result = WebSmartPlaceControllerCP.rFunc s :
+					SysADLconnectors.RoomInfoCT bindings WebSmartPlaceControllerCP.store =
+					DBFunctionalCP.store u : SysADLconnectors.UserDataCT bindings
+					WebSmartPlaceControllerCP.u = DBConfigCP.u b :
+					SysADLconnectors.BuildingDataCT bindings WebSmartPlaceControllerCP.b =
+					DBConfigCP.b r : SysADLconnectors.RoomDataCT bindings
+					WebSmartPlaceControllerCP.r = DBConfigCP.r q : SysADLconnectors.DBQueryCT
+					bindings WebSmartPlaceControllerCP.qConfig = DBConfigCP.q r :
+					SysADLconnectors.DBSmartPlaceCT bindings DBConfigCP.res =
+					WebSmartPlaceControllerCP.rConfig delegations:
+					WebSmartPlaceControllerCP.scheduling to scheduling
+					WebSmartPlaceControllerCP.stroreDB to storeBD
+				}
+			}
+			component def WebSmartPlaceControllerCP {
+			ports scheduling : SysADLports.SchedulingOPT {
+				}
+				stroreDB : SysADLports.RoomInfoIPT {
+				}
+				store : SysADLports.RoomInfoOPT {
+				}
+				qFunc : SysADLports.DBQueryOPT {
+				}
+				rFunc : SysADLports.DBSmartPlaceIPT {
+				}
+				u : SysADLports.UserDataOPT {
+				}
+				b : SysADLports.BuildingDataOPT {
+				}
+				r : SysADLports.RoomDataOPT {
+				}
+				qConfig : SysADLports.DBQueryOPT {
+				}
+				rConfig : SysADLports.DBSmartPlaceIPT {
+				}
+			}
+			boundary component def DBConfigCP {
+				ports u : SysADLports.UserDataIPT {
+				}
+				b : SysADLports.BuildingDataIPT {
+				}
+				r : SysADLports.RoomDataIPT {
+				}
+				q : SysADLports.DBQueryIPT {
+				}
+				res : SysADLports.DBSmartPlaceOPT {
+				}
+			}
+			boundary component def DBFunctionalCP {
+				ports store : SysADLports.RoomInfoIPT {
+				}
+				q : SysADLports.DBQueryIPT {
+				}
+				result : SysADLports.DBSmartPlaceOPT {
+				}
+			}
+			component def SmartPlaceARCH {
+				configuration{
+					components:
+					Room1_1 : RoomSmartPlaceCP {
+						using ports DB1_1 : SysADLports.RoomInfoOPT {
+						}
+						s1_1 : SysADLports.SchedulingIPT {
+						}
+					}
+					Room1_2 : RoomSmartPlaceCP {
+						using ports DB1_2 : SysADLports.RoomInfoOPT {
+						}
+						s1_2 : SysADLports.SchedulingIPT {
+						}
+					}
+					Building1 : BuildingSmartPlaceCP {
+						using ports ws : SysADLports.SchedulingIPT {
+						}
+						Rscheduling : SysADLports.SchedulingOPT [ 1, 10 ] {
+						}
+						Rstore : SysADLports.RoomInfoIPT [ 1, 10 ] {
+						}
+						rwStore : SysADLports.RoomInfoOPT {
+						}
+					}
+					WebSmartPlaceCP : WebSmartPlaceCP {
+						using ports scheduling : SysADLports.SchedulingOPT [ 1, 10 ] {
+						}
+						storeBD : SysADLports.RoomInfoIPT [ 1, 10 ] {
+						}
+					}
+					Building2 : BuildingSmartPlaceCP {
+						using ports ws : SysADLports.SchedulingIPT {
+						}
+						Rscheduling : SysADLports.SchedulingOPT {
+						}
+						Rstore : SysADLports.RoomInfoIPT {
+						}
+						rwStore : SysADLports.RoomInfoOPT {
+						}
+					}
+					Room2_1 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Room2_2 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Building3 : BuildingSmartPlaceCP {
+						using ports ws : SysADLports.SchedulingIPT {
+						}
+						Rscheduling : SysADLports.SchedulingOPT [ 1, 10 ] {
+						}
+						Rstore : SysADLports.RoomInfoIPT [ 1, 10 ] {
+						}
+						rwStore : SysADLports.RoomInfoOPT {
+						}
+					}
+					Room3_1 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Room3_2 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Room3_6 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Room3_3 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Room3_4 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					Room3_5 : RoomSmartPlaceCP {
+						using ports DBStore : SysADLports.RoomInfoOPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+					}
+					connectors:
+					r1_1 : SysADLconnectors.RoomInfoCT bindings Room1_1.DB1_1 =
+					Building1.Rstore r1_2 : SysADLconnectors.RoomInfoCT bindings Room1_2.DB1_2
+					= Building1.Rstore r1_1 : SysADLconnectors.SchedulingCT bindings
+					Room1_1.s1_1 = Building1.Rscheduling r1_2 : SysADLconnectors.SchedulingCT
+					bindings Room1_2.s1_2 = Building1.Rscheduling ws1 :
+					SysADLconnectors.SchedulingCT bindings WebSmartPlaceCP.scheduling =
+					Building1.ws ws3 : SysADLconnectors.SchedulingCT bindings
+					WebSmartPlaceCP.scheduling = Building3.ws ws2 :
+					SysADLconnectors.SchedulingCT bindings WebSmartPlaceCP.scheduling =
+					Building2.ws dbw3 : SysADLconnectors.RoomInfoCT bindings Building3.rwStore
+					= WebSmartPlaceCP.storeBD dbw1 : SysADLconnectors.RoomInfoCT bindings
+					Building1.rwStore = WebSmartPlaceCP.storeBD s1 :
+					SysADLconnectors.SchedulingCT bindings Building2.Rscheduling =
+					Room2_1.scheduling s2 : SysADLconnectors.SchedulingCT bindings
+					Building2.Rscheduling = Room2_2.scheduling db1 :
+					SysADLconnectors.RoomInfoCT bindings Room2_1.DBStore = Building2.Rstore
+					db2 : SysADLconnectors.RoomInfoCT bindings Room2_2.DBStore =
+					Building2.Rstore dbw2 : SysADLconnectors.RoomInfoCT bindings
+					Building2.rwStore = WebSmartPlaceCP.storeBD sc1 :
+					SysADLconnectors.SchedulingCT bindings Building3.Rscheduling =
+					Room3_1.scheduling sc2 : SysADLconnectors.SchedulingCT bindings
+					Building3.Rscheduling = Room3_2.scheduling sc3 :
+					SysADLconnectors.SchedulingCT bindings Building3.Rscheduling =
+					Room3_3.scheduling db4 : SysADLconnectors.RoomInfoCT bindings
+					Room3_4.DBStore = Building3.Rstore db5 : SysADLconnectors.RoomInfoCT
+					bindings Room3_5.DBStore = Building3.Rstore db6 :
+					SysADLconnectors.RoomInfoCT bindings Room3_6.DBStore = Building3.Rstore
+					db3 : SysADLconnectors.RoomInfoCT bindings Room3_3.DBStore =
+					Building3.Rstore db2 : SysADLconnectors.RoomInfoCT bindings
+					Room3_2.DBStore = Building3.Rstore db1 : SysADLconnectors.RoomInfoCT
+					bindings Room3_1.DBStore = Building3.Rstore sc6 :
+					SysADLconnectors.SchedulingCT bindings Building3.Rscheduling =
+					Room3_6.scheduling sc5 : SysADLconnectors.SchedulingCT bindings
+					Building3.Rscheduling = Room3_5.scheduling sc4 :
+					SysADLconnectors.SchedulingCT bindings Building3.Rscheduling =
+					Room3_4.scheduling
 				}
 			}
 		}
