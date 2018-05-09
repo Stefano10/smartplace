@@ -53,6 +53,21 @@ enum PresenceEN {
 		datatype DBQueryDT {
 				attributes StartDate : DateDT EndDate : DateDT
 			}
+		datatype UserDataDT {
+				attributes Login : String Password : String RegistrationNumber : Int Name :
+				String UserProfile : ProfileEN DesiredTemp : TemperatureVT
+			}
+			datatype RoomDataDT {
+				attributes IdRoom : Int IdBuilding : Int IdSensorTemp : Int
+				IdSensorPresence : Int IdCam : Int IdAirConditioner : Int RoomCapacity :
+				Int
+			}
+			datatype BuildingDataDT {
+				attributes IdBuilding : Int Address : String NumberRooms : Int
+			}
+			enum ProfileEN {
+				teacher, adm
+			}
 		}
 package SysADLports {
 	import SysADL.types;
@@ -109,6 +124,24 @@ port def TemperatureIPT {
 			}
 			port def DBQueryOPT {
 				flow out SysADL.types.DBQueryDT
+			}
+		port def BuildingDataIPT {
+				flow in SysADL.types.BuildingDataDT
+			}
+			port def BuildingDataOPT {
+				flow out SysADL.types.BuildingDataDT
+			}
+			port def UserDataIPT {
+				flow in SysADL.types.UserDataDT
+			}
+			port def UserDataOPT {
+				flow out SysADL.types.UserDataDT
+			}
+			port def RoomDataIPT {
+				flow in SysADL.types.RoomDataDT
+			}
+			port def RoomDataOPT {
+				flow out SysADL.types.RoomDataDT
 			}
 		}
 package SysADLcomponents {
@@ -341,6 +374,27 @@ connector def PresenceCT {
 				~ qe : SysADLports.DBQueryIPT {
 				}
 				flows SysADL.types.DBQueryDT from q1 to qe
+			}
+		connector def RoomDataCT {
+				participants ~ rd1 : SysADLports.RoomDataOPT {
+				}
+				~ rd2 : SysADLports.RoomDataIPT {
+				}
+				flows SysADL.types.RoomDataDT from rd1 to rd2
+			}
+			connector def UserDataCT {
+				participants ~ ud1 : SysADLports.UserDataOPT {
+				}
+				~ ud2 : SysADLports.UserDataIPT {
+				}
+				flows SysADL.types.UserDataDT from ud1 to ud2
+			}
+			connector def BuildingDataCT {
+				participants ~ bd1 : SysADLports.BuildingDataOPT {
+				}
+				~ bd2 : SysADLports.BuildingDataIPT {
+				}
+				flows SysADL.types.BuildingDataDT from bd1 to bd2
 			}
 		}
 		Requirement ControlarArCondicionado ( 1 ) {
