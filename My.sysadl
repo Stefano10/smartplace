@@ -745,3 +745,14 @@ connector def PresenceCT {
 				"O sistema deve ser capaz de enviar alertas ao usuário suporte técnico casos de inconsistências e anomalias em seu funcionamento"
 			}
 		}
+		Requirement RequisitosQualidade ( 4 ) {
+			text = "O sistema deve atender alguns requisitos de qualidade." Requirement
+			Escalabilidade ( 4.1 ) {
+				text =
+				"O sistema deve ser capaz de receber novas salas, predios e sensores com o mínimo de impacto na sua arquitetura"
+			}
+			Requirement ToleranciaFalhas ( 4.2 ) {
+				text =
+				"O sistema deve avisar ao administrador do sistema quando ocorrer alguma falha"
+			}
+		}
