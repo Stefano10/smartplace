@@ -400,3 +400,48 @@ connector def PresenceCT {
 			"O sistema deverá ser capaz de verificar se existe presença na sala, a partir da imagem enviada pela câmera de vídeo. O sistema deverá retornar um inteiro positivo que indica a presença de pessoas na sala ou \"zero\" para não presença de pessoas."
 			derive ControlarArCondicionado.VerificarPresenca;
 		}
+		
+		Requirement EmitirRelatorios ( 2 ) {
+			text =
+			"O sistema deverá ser capaz de emitir relatórios sobre o funcionamento do sistema, a partir de solicitação via Sistema Web."
+		Requirement EmitirRelatorioHistoricoPredio ( 2.1 ) {
+				text =
+				"O sistema deve permitir a geração de relatório contendo todas as informaçõs relativas ao funcionamento do ar condicionado nas salas de um prédio. Esse relatório deverá ser emitido de acordo com o período desejado."
+			}
+			Requirement EmitirRelatorioConsumoPredio ( 2.3 ) {
+				text =
+				"O sistema deve permitir a geração de relatório contendo o consumo relativo ao funcionamento do ar condicionado nas salas de um prédio. Esse relatório deverá ser emitido de acordo com o período desejado."
+			}
+			Requirement EmitirRelatorioConsumoSala ( 2.4 ) {
+				text =
+				"O sistema deve permitir a geração de relatório contendo o consumo relativo ao funcionamento do ar condicionado em uma sala. Esse relatório deverá ser emitido de acordo com o período desejado"
+			}
+			Requirement EmitirRelatorioHistoricoSala ( 2.2 ) {
+				text =
+				"O sistema deve permitir a geração de relatório contendo todas as informaçõs relativas ao funcionamento do ar condicionado em uma sala. Esse relatório deverá ser emitido de acordo com o período desejado."
+			}
+			Requirement EmitirRelatorioMedicoesSensores ( 2.5 ) {
+				text =
+				"O sistema deve permitir a geração de relatório contendo as informações relativas às medições realizadas pelos sensores. Esse relatório deverá ser emitido de acordo com o período e sensor desejado."
+			}
+		}
+		Requirement WebGerenciarFuncionamentoSistema ( 3 ) {
+			text =
+			"O sistema deve permitir a que seja realizado via sistema web a gestão do funcionamento do sistema de ar condicionado."
+			Requirement WebAgendarFuncionamentoArCondicionado ( 3.1 ) {
+				text =
+				"O sistema deve permitir a que seja realizado via sistema web o agendamento do funcionamento do ar condicionado de uma sala, com opção de escolha de temperatura e horário de início e fim do funcionamento."
+			}
+			Requirement WebDefinirTemperaturaSala ( 3.2 ) {
+				text =
+				"O sistema deve permitir a que seja realizado via sistema web a definição da temperatura desejada para uma sala."
+			}
+			Requirement WebDefinirConfiguracoesPessoais ( 3.3 ) {
+				text =
+				"O sistema deve permitir a que seja realizado via sistema web a definição da configuração de temperatura de acordo com as preferências pessoais do usuário professor responsável pelo uso da sala."
+			}
+			Requirement WebAlertarAnomaliasSuporteTecnico ( 3.4 ) {
+				text =
+				"O sistema deve ser capaz de enviar alertas ao usuário suporte técnico casos de inconsistências e anomalias em seu funcionamento"
+			}
+		}
