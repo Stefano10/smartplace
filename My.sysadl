@@ -179,7 +179,7 @@ boundary component def TemperatureSensorCP {
 				scheduling : SysADLports.SchedulingIPT {
 				}
 			}
-			component def CameraControlCP {
+			boundary component def CameraControlCP {
 				ports ActualImage : SysADLports.CamInfoIPT {
 				}
 				nPeople : SysADLports.PeopleNumOPT {
