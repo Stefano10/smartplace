@@ -554,6 +554,28 @@ boundary component def TemperatureSensorCP {
 					Room3_4.scheduling
 				}
 			}
+		
+			
+			
+		activity def RoomControllerAC ( tempActual : flow SysADL.types.TemperatureVT,
+			presenceActual : flow SysADL.types.PresenceEN, nPeople : SysADL.types.Int,
+			scheduling : SysADL.types.SchedulingDT ) : ( nCommand :
+			SysADL.types.CommandDT, historicDB : SysADL.types.RoomInfoDT ) {
+				body {
+				}
+			}
+			
+			action def SetAirConditionerAN ( tempActual : flow
+			SysADL.types.TemperatureVT, presenceActual : SysADL.types.PresenceEN,
+			nPeople : SysADL.types.Int ) : SysADL.types.CommandDT {
+			}
+			action def ExecuteSchedulingAN ( newPin : SysADL.types.SchedulingDT ) :
+			SysADL.types.CommandDT {
+			}
+			action def StoreHistory ( tempActual : SysADL.types.TemperatureVT,
+			presenceActual : SysADL.types.PresenceEN, nPeople : SysADL.types.Int ) :
+			SysADL.types.RoomInfoDT {
+			}
 		}
 package SysADLconnectors {
 	import SysADL.types;
