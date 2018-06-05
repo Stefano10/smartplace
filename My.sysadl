@@ -562,6 +562,25 @@ boundary component def TemperatureSensorCP {
 			scheduling : SysADL.types.SchedulingDT ) : ( nCommand :
 			SysADL.types.CommandDT, historicDB : SysADL.types.RoomInfoDT ) {
 				body {
+				actions : SetAirConditionerAN : SetAirConditionerAN {
+						using pins tempActual : SysADL.types.TemperatureVT presenceActual :
+						SysADL.types.PresenceEN nPeople : SysADL.types.Int
+					}
+					ExecuteSchedulingAN : ExecuteSchedulingAN {
+						using pins scheduling : SysADL.types.SchedulingDT
+					}
+					StoreHistory : StoreHistory {
+						using pins nPeople : SysADL.types.Int presenceActual :
+						SysADL.types.PresenceEN tempActual : SysADL.types.TemperatureVT
+					}
+					delegate presenceActual to SetAirConditionerAN.tempActual delegate nPeople
+					to SetAirConditionerAN.nPeople delegate tempActual to
+					SetAirConditionerAN.presenceActual delegate nCommand to
+					SetAirConditionerAN delegate nCommand to ExecuteSchedulingAN delegate
+					scheduling to ExecuteSchedulingAN.scheduling delegate historicDB to
+					StoreHistory delegate presenceActual to StoreHistory.presenceActual
+					delegate nPeople to StoreHistory.nPeople delegate tempActual to
+					StoreHistory.tempActual
 				}
 			}
 			
@@ -569,7 +588,7 @@ boundary component def TemperatureSensorCP {
 			SysADL.types.TemperatureVT, presenceActual : SysADL.types.PresenceEN,
 			nPeople : SysADL.types.Int ) : SysADL.types.CommandDT {
 			}
-			action def ExecuteSchedulingAN ( newPin : SysADL.types.SchedulingDT ) :
+			action def ExecuteSchedulingAN ( scheduling : SysADL.types.SchedulingDT ) :
 			SysADL.types.CommandDT {
 			}
 			action def StoreHistory ( tempActual : SysADL.types.TemperatureVT,
