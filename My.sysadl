@@ -569,9 +569,12 @@ boundary component def TemperatureSensorCP {
 					ExecuteSchedulingAN : ExecuteSchedulingAN {
 						using pins scheduling : SysADL.types.SchedulingDT
 					}
-					StoreHistory : StoreHistory {
+					StoreHistory : StoreRoomLogAN {
 						using pins nPeople : SysADL.types.Int presenceActual :
 						SysADL.types.PresenceEN tempActual : SysADL.types.TemperatureVT
+					}
+					sendRoomLog2BuildingAN : sendRoomLog2BuildingAN {
+						using pins roomLog : SysADL.types.RoomInfoDT
 					}
 					delegate presenceActual to SetAirConditionerAN.tempActual delegate nPeople
 					to SetAirConditionerAN.nPeople delegate tempActual to
@@ -580,7 +583,10 @@ boundary component def TemperatureSensorCP {
 					scheduling to ExecuteSchedulingAN.scheduling delegate historicDB to
 					StoreHistory delegate presenceActual to StoreHistory.presenceActual
 					delegate nPeople to StoreHistory.nPeople delegate tempActual to
-					StoreHistory.tempActual
+					StoreHistory.tempActual flow from StoreHistory to
+					sendRoomLog2BuildingAN.roomLog flow from sendRoomLog2BuildingAN to DBRoom
+					datastore DBRoom : SysADL.types.RoomInfoDT {
+					}
 				}
 			}
 			
@@ -591,8 +597,50 @@ boundary component def TemperatureSensorCP {
 			action def ExecuteSchedulingAN ( scheduling : SysADL.types.SchedulingDT ) :
 			SysADL.types.CommandDT {
 			}
-			action def StoreHistory ( tempActual : SysADL.types.TemperatureVT,
+			action def StoreRoomLogAN ( tempActual : SysADL.types.TemperatureVT,
 			presenceActual : SysADL.types.PresenceEN, nPeople : SysADL.types.Int ) :
+			SysADL.types.RoomInfoDT {
+			}
+		activity def BuildingControlAC ( roomLog : SysADL.types.RoomInfoDT,
+			webScheduling : SysADL.types.SchedulingDT ) : ( roomScheduling :
+			SysADL.types.SchedulingDT, roomBK : SysADL.types.RoomInfoDT ) {
+				body {
+					actions : SendSchedulingAN : SendSchedulingAN {
+						using pins webScheduling : SysADL.types.SchedulingDT
+					}
+					sendBuildingLog2WebAN : SendBuildingLog2WebAN {
+						using pins buildingLog : SysADL.types.RoomInfoDT
+					}
+					StoreBuildingLogAN : StoreBuildingLogAN {
+						using pins logRoom : SysADL.types.RoomInfoDT
+					}
+					delegate roomScheduling to SendSchedulingAN delegate webScheduling to
+					SendSchedulingAN.webScheduling delegate roomLog to
+					sendBuildingLog2WebAN.buildingLog delegate roomBK to sendBuildingLog2WebAN
+					delegate roomLog to StoreBuildingLogAN.logRoom flow from
+					StoreBuildingLogAN to DBBuilding datastore DBBuilding :
+					SysADL.types.RoomInfoDT {
+					}
+				}
+			}
+			action def SendSchedulingAN ( webScheduling : SysADL.types.SchedulingDT ) :
+			SysADL.types.SchedulingDT {
+			}
+			action def StoreBuildingLogAN ( logRoom : SysADL.types.RoomInfoDT ) :
+			SysADL.types.RoomInfoDT {
+			}
+			action def SendBuildingLog2WebAN ( buildingLog : SysADL.types.RoomInfoDT ) :
+			SysADL.types.RoomInfoDT {
+			}
+			action def sendRoomLog2BuildingAN ( roomLog : SysADL.types.RoomInfoDT ) :
+			SysADL.types.RoomInfoDT {
+			}
+			activity def WebSmartPlaceControlAC ( logRoomBuilding :
+			SysADL.types.RoomInfoDT ) : ( roomScheduling : SysADL.types.SchedulingDT ) {
+				body {
+				}
+			}
+			action def StoreWebPlaceLog ( roomLog : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
 			}
 		}
