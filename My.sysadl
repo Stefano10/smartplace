@@ -316,7 +316,7 @@ boundary component def TemperatureSensorCP {
 				configuration{
 					components:
 					WebSmartPlaceControllerCP : WebSmartPlaceControllerCP {
-						using ports scheduling : SysADLports.SchedulingOPT {
+						using ports sch : SysADLports.SchedulingOPT {
 						}
 						stroreDB : SysADLports.RoomInfoIPT {
 						}
@@ -335,6 +335,24 @@ boundary component def TemperatureSensorCP {
 						qConfig : SysADLports.DBQueryOPT {
 						}
 						rConfig : SysADLports.DBSmartPlaceIPT {
+						}
+						user : SysADLports.UserDataIPT {
+						}
+						build : SysADLports.BuildingDataIPT {
+						}
+						scheduling : SysADLports.SchedulingIPT {
+						}
+						room : SysADLports.RoomDataIPT {
+						}
+					}
+					Keys : Keys {
+						using ports user : SysADLports.UserDataOPT {
+						}
+						scheduling : SysADLports.SchedulingOPT {
+						}
+						room : SysADLports.RoomDataOPT {
+						}
+						build : SysADLports.BuildingDataOPT {
 						}
 					}
 					DBFunctionalCP : DBFunctionalCP {
@@ -358,24 +376,32 @@ boundary component def TemperatureSensorCP {
 						}
 					}
 					connectors:
-					q : SysADLconnectors.DBQueryCT bindings WebSmartPlaceControllerCP.qFunc =
-					DBFunctionalCP.q r : SysADLconnectors.DBSmartPlaceCT bindings
-					DBFunctionalCP.result = WebSmartPlaceControllerCP.rFunc s :
+					cb1 : SysADLconnectors.UserDataCT bindings Keys.user =
+					WebSmartPlaceControllerCP.user cb2 : SysADLconnectors.RoomDataCT bindings
+					Keys.room = WebSmartPlaceControllerCP.room cb3 :
+					SysADLconnectors.BuildingDataCT bindings Keys.build =
+					WebSmartPlaceControllerCP.build cb4 : SysADLconnectors.SchedulingCT
+					bindings Keys.scheduling = WebSmartPlaceControllerCP.scheduling
+				cb5 : SysADLconnectors.DBQueryCT bindings WebSmartPlaceControllerCP.qFunc =
+					DBFunctionalCP.q cb6 : SysADLconnectors.DBSmartPlaceCT bindings
+					DBFunctionalCP.result = WebSmartPlaceControllerCP.rFunc cb7 :
 					SysADLconnectors.RoomInfoCT bindings WebSmartPlaceControllerCP.store =
-					DBFunctionalCP.store u : SysADLconnectors.UserDataCT bindings
-					WebSmartPlaceControllerCP.u = DBConfigCP.u b :
+					DBFunctionalCP.store cb8 : SysADLconnectors.UserDataCT bindings
+					WebSmartPlaceControllerCP.u = DBConfigCP.u cb9 :
 					SysADLconnectors.BuildingDataCT bindings WebSmartPlaceControllerCP.b =
-					DBConfigCP.b r : SysADLconnectors.RoomDataCT bindings
-					WebSmartPlaceControllerCP.r = DBConfigCP.r q : SysADLconnectors.DBQueryCT
-					bindings WebSmartPlaceControllerCP.qConfig = DBConfigCP.q r :
-					SysADLconnectors.DBSmartPlaceCT bindings DBConfigCP.res =
-					WebSmartPlaceControllerCP.rConfig delegations:
-					WebSmartPlaceControllerCP.scheduling to scheduling
+					DBConfigCP.b cb10 : SysADLconnectors.RoomDataCT bindings
+					WebSmartPlaceControllerCP.r = DBConfigCP.r cb11 :
+					SysADLconnectors.DBQueryCT bindings WebSmartPlaceControllerCP.qConfig =
+					DBConfigCP.q cb12 : SysADLconnectors.DBSmartPlaceCT bindings
+					DBConfigCP.res = WebSmartPlaceControllerCP.rConfig delegations:
+					WebSmartPlaceControllerCP.sch to scheduling
 					WebSmartPlaceControllerCP.stroreDB to storeBD
 				}
+				
+				
 			}
 			component def WebSmartPlaceControllerCP {
-			ports scheduling : SysADLports.SchedulingOPT {
+			ports sch : SysADLports.SchedulingOPT {
 				}
 				stroreDB : SysADLports.RoomInfoIPT {
 				}
@@ -395,7 +421,17 @@ boundary component def TemperatureSensorCP {
 				}
 				rConfig : SysADLports.DBSmartPlaceIPT {
 				}
+			user : SysADLports.UserDataIPT {
+				}
+				
+				build : SysADLports.BuildingDataIPT {
+				}
+				scheduling : SysADLports.SchedulingIPT {
+				}
+			room : SysADLports.RoomDataIPT {
+				}
 			}
+
 			boundary component def DBConfigCP {
 				ports u : SysADLports.UserDataIPT {
 				}
@@ -642,6 +678,16 @@ boundary component def TemperatureSensorCP {
 			}
 			action def StoreWebPlaceLog ( roomLog : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
+			}
+		boundary component def Keys {
+				ports user : SysADLports.UserDataOPT {
+				}
+				scheduling : SysADLports.SchedulingOPT {
+				}
+				room : SysADLports.RoomDataOPT {
+				}
+				build : SysADLports.BuildingDataOPT {
+				}
 			}
 		}
 package SysADLconnectors {
