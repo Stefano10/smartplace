@@ -641,7 +641,7 @@ boundary component def TemperatureSensorCP {
 			webScheduling : SysADL.types.SchedulingDT ) : ( roomScheduling :
 			SysADL.types.SchedulingDT, roomBK : SysADL.types.RoomInfoDT ) {
 				body {
-					actions : SendSchedulingAN : SendSchedulingAN {
+					actions : SendSchedulingAN : SendScheduling2RoomAN {
 						using pins webScheduling : SysADL.types.SchedulingDT
 					}
 					sendBuildingLog2WebAN : SendBuildingLog2WebAN {
@@ -659,7 +659,7 @@ boundary component def TemperatureSensorCP {
 					}
 				}
 			}
-			action def SendSchedulingAN ( webScheduling : SysADL.types.SchedulingDT ) :
+			action def SendScheduling2RoomAN ( webScheduling : SysADL.types.SchedulingDT ) :
 			SysADL.types.SchedulingDT {
 			}
 			action def StoreBuildingLogAN ( logRoom : SysADL.types.RoomInfoDT ) :
@@ -671,14 +671,39 @@ boundary component def TemperatureSensorCP {
 			action def sendRoomLog2BuildingAN ( roomLog : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
 			}
-			activity def WebSmartPlaceControlAC ( logRoomBuilding :
-			SysADL.types.RoomInfoDT ) : ( roomScheduling : SysADL.types.SchedulingDT ) {
+			activity def WebSmartPlaceControlAC (  user : SysADL.types.UserDataDT, log :
+			SysADL.types.RoomInfoDT, job : SysADL.types.SchedulingDT, nRoom :
+			SysADL.types.RoomDataDT, nBuild : SysADL.types.BuildingDataDT, rConfig :
+			SysADL.types.DBSmartPlaceDT, rFunctional : SysADL.types.DBSmartPlaceDT ) : (
+			job2Build : SysADL.types.SchedulingDT, userDB : SysADL.types.UserDataDT,
+			buildDB : SysADL.types.BuildingDataDT, roomDB : SysADL.types.RoomDataDT,
+			logDB : SysADL.types.RoomInfoDT, qConfig : SysADL.types.DBQueryDT,
+			qFunctional : SysADL.types.DBQueryDT ) {
 				body {
+				actions : StoreWebPlaceLogAN : StoreWebPlaceLogAN {
+						using pins logRoom : SysADL.types.RoomInfoDT
+					}
+					SendScheduling2BuildAN : SendScheduling2BuildAN {
+						using pins job : SysADL.types.SchedulingDT
+					}
+					ManageUserAN : ManageUserAN {
+						using pins nUser : SysADL.types.UserDataDT
+					}
+					ManageRoomAN : ManageRoomAN {
+						using pins nRoom : SysADL.types.RoomDataDT
+					}
+					ManageBuildingAN : ManageBuildingAN {
+						using pins nBuild : SysADL.types.BuildingDataDT
+					}
+					delegate logDB to StoreWebPlaceLogAN delegate log to
+					StoreWebPlaceLogAN.logRoom delegate job to SendScheduling2BuildAN.job
+					delegate job2Build to SendScheduling2BuildAN delegate userDB to
+					ManageUserAN delegate user to ManageUserAN.nUser delegate nRoom to
+					ManageRoomAN.nRoom delegate roomDB to ManageRoomAN delegate buildDB to
+					ManageBuildingAN delegate nBuild to ManageBuildingAN.nBuild
 				}
 			}
-			action def StoreWebPlaceLog ( roomLog : SysADL.types.RoomInfoDT ) :
-			SysADL.types.RoomInfoDT {
-			}
+			
 		boundary component def Keys {
 				ports user : SysADLports.UserDataOPT {
 				}
@@ -688,6 +713,21 @@ boundary component def TemperatureSensorCP {
 				}
 				build : SysADLports.BuildingDataOPT {
 				}
+			}
+		action def StoreWebPlaceLogAN ( logRoom : SysADL.types.RoomInfoDT ) :
+			SysADL.types.RoomInfoDT {
+			}
+			action def SendScheduling2BuildAN ( job : SysADL.types.SchedulingDT ) :
+			SysADL.types.SchedulingDT {
+			}
+			action def ManageUserAN ( nUser : SysADL.types.UserDataDT ) :
+			SysADL.types.UserDataDT {
+			}
+			action def ManageRoomAN ( nRoom : SysADL.types.RoomDataDT ) :
+			SysADL.types.RoomDataDT {
+			}
+			action def ManageBuildingAN ( nBuild : SysADL.types.BuildingDataDT ) :
+			SysADL.types.BuildingDataDT {
 			}
 		}
 package SysADLconnectors {
