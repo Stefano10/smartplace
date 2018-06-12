@@ -629,6 +629,15 @@ boundary component def TemperatureSensorCP {
 			action def SetAirConditionerAN ( tempActual : flow
 			SysADL.types.TemperatureVT, presenceActual : SysADL.types.PresenceEN,
 			nPeople : SysADL.types.Int ) : SysADL.types.CommandDT {
+			
+			post-condition CheckCommandEQ ( ) post-condition
+				CheckPeopleToSetTemperatureEQ ( ) post-condition
+				CheckPresenceToSetTemperatureEQ ( ) delegate SetAirConditionerAN to
+				CheckCommandEQ.setAir delegate tempActual to
+				CheckPresenceToSetTemperatureEQ.TempActual delegate presenceActual to
+				CheckPresenceToSetTemperatureEQ.presence delegate nPeople to
+				CheckPresenceToSetTemperatureEQ.nPeople delegate nPeople to
+				CheckPeopleToSetTemperatureEQ.nPeople
 			}
 			action def ExecuteSchedulingAN ( scheduling : SysADL.types.SchedulingDT ) :
 			SysADL.types.CommandDT {
@@ -673,12 +682,12 @@ boundary component def TemperatureSensorCP {
 			}
 			activity def WebSmartPlaceControlAC (  user : SysADL.types.UserDataDT, log :
 			SysADL.types.RoomInfoDT, job : SysADL.types.SchedulingDT, nRoom :
-			SysADL.types.RoomDataDT, nBuild : SysADL.types.BuildingDataDT, rConfig :
-			SysADL.types.DBSmartPlaceDT, rFunctional : SysADL.types.DBSmartPlaceDT ) : (
+			SysADL.types.RoomDataDT, nBuild : SysADL.types.BuildingDataDT, qConfig :
+			SysADL.types.DBSmartPlaceDT,  qFuncional : SysADL.types.DBSmartPlaceDT ) : (
 			job2Build : SysADL.types.SchedulingDT, userDB : SysADL.types.UserDataDT,
 			buildDB : SysADL.types.BuildingDataDT, roomDB : SysADL.types.RoomDataDT,
-			logDB : SysADL.types.RoomInfoDT, qConfig : SysADL.types.DBQueryDT,
-			qFunctional : SysADL.types.DBQueryDT ) {
+			logDB : SysADL.types.RoomInfoDT, rConfig : SysADL.types.DBQueryDT,
+			 rFunctional : SysADL.types.DBQueryDT ) {
 				body {
 				actions : StoreWebPlaceLogAN : StoreWebPlaceLogAN {
 						using pins logRoom : SysADL.types.RoomInfoDT
@@ -695,12 +704,21 @@ boundary component def TemperatureSensorCP {
 					ManageBuildingAN : ManageBuildingAN {
 						using pins nBuild : SysADL.types.BuildingDataDT
 					}
+					SearchDBConfigAN : SearchDBConfigAN {
+						using pins qConfig : SysADL.types.DBQueryDT
+					}
+					SearchDBFuncionalAN : SearchDBFuncionalAN {
+						using pins qFunc : SysADL.types.DBQueryDT
+					}
 					delegate logDB to StoreWebPlaceLogAN delegate log to
 					StoreWebPlaceLogAN.logRoom delegate job to SendScheduling2BuildAN.job
 					delegate job2Build to SendScheduling2BuildAN delegate userDB to
 					ManageUserAN delegate user to ManageUserAN.nUser delegate nRoom to
 					ManageRoomAN.nRoom delegate roomDB to ManageRoomAN delegate buildDB to
 					ManageBuildingAN delegate nBuild to ManageBuildingAN.nBuild
+				delegate qConfig to SearchDBConfigAN.qConfig delegate rConfig to
+					SearchDBConfigAN delegate rFunctional to SearchDBFuncionalAN delegate
+					qFuncional to SearchDBFuncionalAN.qFunc
 				}
 			}
 			
@@ -728,6 +746,28 @@ boundary component def TemperatureSensorCP {
 			}
 			action def ManageBuildingAN ( nBuild : SysADL.types.BuildingDataDT ) :
 			SysADL.types.BuildingDataDT {
+			}
+		action def SearchDBFuncionalAN ( qFunc : SysADL.types.DBQueryDT ) :
+			SysADL.types.DBSmartPlaceDT {
+			}
+			action def SearchDBConfigAN ( qConfig : SysADL.types.DBQueryDT ) :
+			SysADL.types.DBSmartPlaceDT {
+			}
+		
+		
+		constraint CheckPresenceToSetTemperatureEQ ( presence :
+			SysADL.types.PresenceEN, nPeople : SysADL.types.Int, TempActual :
+			SysADL.types.TemperatureVT ) : ( actionAir : SysADL.types.CommandEN ) {
+			equation = 'presence == true && nPeople > 0?actionAir.Action == On:actionAir.Action == Off'
+			}
+		
+		constraint CheckPeopleToSetTemperatureEQ ( nPeople : SysADL.types.Int ) : (
+			desiredTemp : SysADL.types.TemperatureVT ) {
+			equation = 'nPeople < 10? desiredTemp == 24:(nPeople < 20? desiredTemp == 22):desiredTemp == 20: desiredTemp==18'
+			}
+		constraint CheckCommandEQ ( actionAir : SysADL.types.CommandEN, desiredTemp :
+			SysADL.types.TemperatureVT ) : ( setAir : SysADL.types.CommandDT ) {
+			equation = '(actionAir == CommandDT.Action && desiredTemp == CommandDT.desiredTemp)'
 			}
 		}
 package SysADLconnectors {
@@ -930,4 +970,6 @@ connector def PresenceCT {
 				text =
 				"O sistema deve avisar ao administrador do sistema quando ocorrer alguma falha"
 			}
+		}
+		allocations {
 		}
