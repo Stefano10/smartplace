@@ -795,9 +795,17 @@ boundary component def TemperatureSensorCP {
 			}
 			action def SearchDBConfigAN ( qConfig : SysADL.types.DBQueryDT ) :
 			SysADL.types.DBSmartPlaceDT {
-			post-condition CheckSearchDBConfigEQ ( ) delegate qConfig to
-				CheckSearchDBConfigEQ.query delegate SearchDBConfigAN to
-				CheckSearchDBConfigEQ.response
+			post-condition CheckSearchRoomDBConfigEQ ( ) delegate qConfig to
+				CheckSearchRoomDBConfigEQ.query delegate SearchDBConfigAN to
+				CheckSearchRoomDBConfigEQ.response
+			post-condition CheckSearchSchedulingDBConfigEQ ( ) post-condition
+				CheckSearchBuildingDBConfigEQ ( ) post-condition CheckSearchUserDBConfigEQ
+				( ) delegate qConfig to CheckSearchBuildingDBConfigEQ.query delegate
+				qConfig to CheckSearchSchedulingDBConfigEQ.query delegate qConfig to
+				CheckSearchUserDBConfigEQ.query delegate SearchDBConfigAN to
+				CheckSearchBuildingDBConfigEQ.response delegate SearchDBConfigAN to
+				CheckSearchSchedulingDBConfigEQ.response delegate SearchDBConfigAN to
+				CheckSearchUserDBConfigEQ.response
 			}
 		
 		
@@ -864,12 +872,22 @@ boundary component def TemperatureSensorCP {
 			response : SysADL.types.DBSmartPlaceDT ) {
 				equation = 'query.date==response.DBLogTable.Date && query.RoomID == response.DBLogTable.RoomID && query.BuildID == response.DBLogTable.BuildingID'
 			}
-		constraint CheckSearchDBConfigEQ ( query : SysADL.types.DBQueryDT ) : ( response
+		constraint CheckSearchRoomDBConfigEQ ( query : SysADL.types.DBQueryDT ) : ( response
 			: SysADL.types.DBSmartPlaceDT ) {
 				equation = '((query.RoomID != 0 && query.BuildingID != 0 && query.SchedulingID == 0 && query.UserID == 0) -> (response.DBConfigTable.RoomConfigTable.IdRoom == query.RoomID &&
- response.DBConfigTable.RoomConfigTable.IdBuilding == query.BuildingID)) || ((query.RoomID == 0 && query.BuildingID != 0 && query.SchedulingID == 0 && query.UserID == 0) -> (response.DBConfigTable.RoomConfigTable.IdBuilding == query.BuildingID)) ||
-((query.RoomID == 0 && query.BuildingID == 0 && query.SchedulingID != 0 && query.UserID == 0) -> (response.DBConfigTable.SchedulingConfigTable.IdScheduling == query.SchedulingID )) ||
-((query.RoomID == 0 && query.BuildingID == 0 && query.SchedulingID == 0 && query.UserID != 0) -> (response.DBConfigTable.UserConfigTable.IdUser == query.UserID))'
+ response.DBConfigTable.RoomConfigTable.IdBuilding == query.BuildingID))'
+			}
+		constraint CheckSearchBuildingDBConfigEQ ( query : SysADL.types.DBQueryDT ) :
+			( response : SysADL.types.DBSmartPlaceConfigDT ) {
+				equation = '((query.RoomID == 0 && query.BuildingID != 0 && query.SchedulingID == 0 && query.UserID == 0) -> (response.DBConfigTable.RoomConfigTable.IdBuilding == query.BuildingID))'
+			}
+			constraint CheckSearchUserDBConfigEQ ( query : SysADL.types.DBQueryDT ) : (
+			response : SysADL.types.DBSmartPlaceConfigDT ) {
+				equation ='((query.RoomID == 0 && query.BuildingID == 0 && query.SchedulingID != 0 && query.UserID == 0) -> (response.DBConfigTable.SchedulingConfigTable.IdScheduling == query.SchedulingID ))'
+			}
+			constraint CheckSearchSchedulingDBConfigEQ ( query : SysADL.types.DBQueryDT
+			) : ( response : SysADL.types.DBSmartPlaceConfigDT ) {
+				equation ='((query.RoomID == 0 && query.BuildingID == 0 && query.SchedulingID == 0 && query.UserID != 0) -> (response.DBConfigTable.UserConfigTable.IdUser == query.UserID))'
 			}
 		}
 package SysADLconnectors {
