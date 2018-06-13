@@ -629,22 +629,28 @@ boundary component def TemperatureSensorCP {
 			action def SetAirConditionerAN ( tempActual : flow
 			SysADL.types.TemperatureVT, presenceActual : SysADL.types.PresenceEN,
 			nPeople : SysADL.types.Int ) : SysADL.types.CommandDT {
-			
-			post-condition CheckCommandEQ ( ) post-condition
-				CheckPeopleToSetTemperatureEQ ( ) post-condition
-				CheckPresenceToSetTemperatureEQ ( ) delegate SetAirConditionerAN to
-				CheckCommandEQ.setAir delegate tempActual to
+			post-condition CheckPresenceToSetTemperatureEQ ( ) delegate tempActual to
 				CheckPresenceToSetTemperatureEQ.TempActual delegate presenceActual to
 				CheckPresenceToSetTemperatureEQ.presence delegate nPeople to
-				CheckPresenceToSetTemperatureEQ.nPeople delegate nPeople to
-				CheckPeopleToSetTemperatureEQ.nPeople
+				CheckPresenceToSetTemperatureEQ.nPeople delegate SetAirConditionerAN to
+				CheckPresenceToSetTemperatureEQ.actionAir
 			}
 			action def ExecuteSchedulingAN ( scheduling : SysADL.types.SchedulingDT ) :
 			SysADL.types.CommandDT {
+			post-condition CheckExecuteSchedulingEQ ( ) delegate scheduling to
+				CheckExecuteSchedulingEQ.scheduling delegate ExecuteSchedulingAN to
+				CheckExecuteSchedulingEQ.actionAir
 			}
 			action def StoreRoomLogAN ( tempActual : SysADL.types.TemperatureVT,
 			presenceActual : SysADL.types.PresenceEN, nPeople : SysADL.types.Int ) :
 			SysADL.types.RoomInfoDT {
+			post-condition CheckStoreRoomLogEQ ( ) delegate nPeople to
+				CheckStoreRoomLogEQ.nPeople delegate tempActual to
+				CheckStoreRoomLogEQ.tempActual delegate StoreRoomLogAN to
+				CheckStoreRoomLogEQ.roomLog
+			post-condition CheckPresenceConsistencyEQ ( ) delegate nPeople to
+				CheckPresenceConsistencyEQ.nPeople delegate presenceActual to
+				CheckPresenceConsistencyEQ.presence
 			}
 		activity def BuildingControlAC ( roomLog : SysADL.types.RoomInfoDT,
 			webScheduling : SysADL.types.SchedulingDT ) : ( roomScheduling :
@@ -670,15 +676,30 @@ boundary component def TemperatureSensorCP {
 			}
 			action def SendScheduling2RoomAN ( webScheduling : SysADL.types.SchedulingDT ) :
 			SysADL.types.SchedulingDT {
+			post-condition CheckSendScheduling2RoomEQ ( ) delegate webScheduling to
+				CheckSendScheduling2RoomEQ.webScheduling delegate SendScheduling2RoomAN to
+				CheckSendScheduling2RoomEQ.scheduling2Room
 			}
 			action def StoreBuildingLogAN ( logRoom : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
+			post-condition CheckStoreBuildingLogEQ ( ) delegate StoreBuildingLogAN to
+				CheckStoreBuildingLogEQ.roomInfoDB delegate logRoom to
+				CheckStoreBuildingLogEQ.roomInfo
 			}
 			action def SendBuildingLog2WebAN ( buildingLog : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
+			 delegate buildingLog to
+				CheckSendRoomLog2BuildingEQ.logRoom delegate SendBuildingLog2WebAN to
+				CheckSendRoomLog2BuildingEQ.logRoom2Build
+			post-condition CheckBuildingLog2WebEQ ( ) delegate buildingLog to
+				CheckBuildingLog2WebEQ.buildingInfo delegate SendBuildingLog2WebAN to
+				CheckBuildingLog2WebEQ.buildingInfoDB
 			}
 			action def sendRoomLog2BuildingAN ( roomLog : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
+			post-condition CheckSendRoomLog2BuildingEQ ( ) delegate roomLog to
+				CheckSendRoomLog2BuildingEQ.logRoom delegate sendRoomLog2BuildingAN to
+				CheckSendRoomLog2BuildingEQ.logRoom2Build
 			}
 			activity def WebSmartPlaceControlAC (  user : SysADL.types.UserDataDT, log :
 			SysADL.types.RoomInfoDT, job : SysADL.types.SchedulingDT, nRoom :
@@ -734,18 +755,30 @@ boundary component def TemperatureSensorCP {
 			}
 		action def StoreWebPlaceLogAN ( logRoom : SysADL.types.RoomInfoDT ) :
 			SysADL.types.RoomInfoDT {
+			post-condition CheckStoreWebLogEQ ( ) delegate StoreWebPlaceLogAN to
+				CheckStoreWebLogEQ.roomlogDB delegate logRoom to CheckStoreWebLogEQ.roomLog
 			}
 			action def SendScheduling2BuildAN ( job : SysADL.types.SchedulingDT ) :
 			SysADL.types.SchedulingDT {
+			post-condition CheckSendScheduling2BuildingEQ ( ) delegate
+				SendScheduling2BuildAN to CheckSendScheduling2BuildingEQ.schedulingBuilding
+				delegate job to CheckSendScheduling2BuildingEQ.scheduling
 			}
 			action def ManageUserAN ( nUser : SysADL.types.UserDataDT ) :
 			SysADL.types.UserDataDT {
+			post-condition CheckManagerUserEQ ( ) delegate ManageUserAN to
+				CheckManagerUserEQ.user delegate nUser to CheckManagerUserEQ.newUser
 			}
 			action def ManageRoomAN ( nRoom : SysADL.types.RoomDataDT ) :
 			SysADL.types.RoomDataDT {
+			post-condition CheckManageRoomEQ ( ) delegate ManageRoomAN to
+				CheckManageRoomEQ.room delegate nRoom to CheckManageRoomEQ.newRoom
 			}
 			action def ManageBuildingAN ( nBuild : SysADL.types.BuildingDataDT ) :
 			SysADL.types.BuildingDataDT {
+			post-condition CheckManageBuildingEQ ( ) delegate nBuild to
+				CheckManageBuildingEQ.newBuilding delegate ManageBuildingAN to
+				CheckManageBuildingEQ.building
 			}
 		action def SearchDBFuncionalAN ( qFunc : SysADL.types.DBQueryDT ) :
 			SysADL.types.DBSmartPlaceDT {
@@ -758,16 +791,65 @@ boundary component def TemperatureSensorCP {
 		constraint CheckPresenceToSetTemperatureEQ ( presence :
 			SysADL.types.PresenceEN, nPeople : SysADL.types.Int, TempActual :
 			SysADL.types.TemperatureVT ) : ( actionAir : SysADL.types.CommandEN ) {
-			equation = 'presence == true && nPeople > 0?actionAir.Action == On:actionAir.Action == Off'
+			equation = '(presence == true && nPeople > 0->actionAir.Action == On) && (nPeople <= 10->actionAir.desiredTemp == 24) && (nPeople > 10 && nPeople <= 20 -> actionAir.desiredTemp == 22) && (nPeople > 20 && nPeople <= 30 -> actionAir.desiredTemp == 20) && (nPeople > 30 -> actionAir.desiredTemp == 18)'
 			}
-		
-		constraint CheckPeopleToSetTemperatureEQ ( nPeople : SysADL.types.Int ) : (
-			desiredTemp : SysADL.types.TemperatureVT ) {
-			equation = 'nPeople < 10? desiredTemp == 24:(nPeople < 20? desiredTemp == 22):desiredTemp == 20: desiredTemp==18'
+
+		constraint CheckExecuteSchedulingEQ ( scheduling : SysADL.types.SchedulingDT )
+			: ( actionAir : SysADL.types.CommandDT ) {
+			equation = 'actionAir.Action == scheduling.Action && actionAir.desiredTemp == scheduling.Temp '	
 			}
-		constraint CheckCommandEQ ( actionAir : SysADL.types.CommandEN, desiredTemp :
-			SysADL.types.TemperatureVT ) : ( setAir : SysADL.types.CommandDT ) {
-			equation = '(actionAir == CommandDT.Action && desiredTemp == CommandDT.desiredTemp)'
+		constraint CheckStoreRoomLogEQ ( tempActual : SysADL.types.TemperatureVT,
+			nPeople : SysADL.types.Int ) : (
+			roomLog : SysADL.types.RoomInfoDT ) {
+			equation = 'nPeople == roomLog.PeopleNum && tempActual == roomLog.ActualTemp'
+			}
+			
+		constraint CheckPresenceConsistencyEQ ( presence : SysADL.types.PresenceEN,
+			nPeople : SysADL.types.Int ) {
+			equation = 'nPeople > 0 -> presence == true && presence == true-> nPeople > 0 '
+			}
+		constraint CheckSendRoomLog2BuildingEQ ( logRoom : SysADL.types.RoomInfoDT ) :
+			( logRoom2Build : SysADL.types.RoomInfoDT ) {
+			equation = 'logRoom == logRoom2Build'
+			}
+		constraint CheckSendScheduling2RoomEQ ( webScheduling :
+			SysADL.types.SchedulingDT ) : ( scheduling2Room : SysADL.types.SchedulingDT
+			) {
+			equation = 'webScheduling == scheduling2Room'	
+			}
+		constraint CheckStoreBuildingLogEQ ( roomInfo : SysADL.types.RoomInfoDT ) : (
+			roomInfoDB : SysADL.types.RoomInfoDT ) {
+			equation = 'roomInfo == roomInfoDB'
+			}
+		constraint CheckBuildingLog2WebEQ ( buildingInfo : SysADL.types.RoomInfoDT ) : (
+			buildingInfoDB : SysADL.types.RoomInfoDT ) {
+				equation = 'buildingInfo == buildingInfoDB'
+			}
+		constraint CheckStoreWebLogEQ ( roomLog : SysADL.types.RoomInfoDT ) : (
+			roomlogDB : SysADL.types.RoomInfoDT ) {
+				equation = 'roomlog == roomlogBD'
+			}
+			
+		constraint CheckSendScheduling2BuildingEQ ( scheduling :
+			SysADL.types.SchedulingDT ) : ( schedulingBuilding :
+			SysADL.types.SchedulingDT ) {
+				equation = 'scheduling == schedulingBuilding'
+			}
+		constraint CheckManagerUserEQ ( newUser : SysADL.types.UserDataDT ) : ( user :
+			SysADL.types.UserDataDT ) {
+				equation = 'newUser == user'
+			}
+		constraint CheckManageRoomEQ ( newRoom : SysADL.types.RoomDataDT ) : ( room :
+			SysADL.types.RoomDataDT ) {
+				equation = 'newRoom == room'
+			}
+		constraint CheckManageBuildingEQ ( newBuilding : SysADL.types.BuildingDataDT )
+			: ( building : SysADL.types.BuildingDataDT ) {
+				equation = 'newBuilding == building'
+			}
+		constraint CheckSearchDBFunctionalEQ ( query : SysADL.types.DBQueryDT ) : (
+			response : SysADL.types.DBSmartPlaceDT ) {
+				equation = ''
 			}
 		}
 package SysADLconnectors {
