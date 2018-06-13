@@ -45,16 +45,18 @@ enum PresenceEN {
 			}
 			datatype SchedulingDT {
 				attributes BuildingID : Int RoomID : Int StartTime : TimeDT EndTime :
-				TimeDT DesiredTemp : TemperatureVT
+				TimeDT DesiredTemp : TemperatureVT SchedulingID : Int
 			}
 			datatype DBSmartPlaceDT extends RoomInfoDT {
-				attributes DBTable : RoomInfoDT
+				attributes DBLogTable : RoomInfoDT
+			DBConfigTable : DBSmartPlaceConfigDT
 			}
 		datatype DBQueryDT {
-				attributes  queryDB : DateDT
+				attributes  Date : DateDT
+			RoomID : Int BuildingID : Int SchedulingID : Int UserID : Int
 			}
 		datatype UserDataDT {
-				attributes Login : String Password : String RegistrationNumber : Int Name :
+				attributes Login : String Password : String IdUser : Int Name :
 				String UserProfile : ProfileEN DesiredTemp : TemperatureVT
 			}
 			datatype RoomDataDT {
@@ -67,6 +69,11 @@ enum PresenceEN {
 			}
 			enum ProfileEN {
 				teacher, adm
+			}
+		datatype DBSmartPlaceConfigDT {
+				attributes RoomConfigTable : RoomDataDT BuildingConfigTable :
+				BuildingDataDT UserConfigTable : UserDataDT SchedulingConfigTable :
+				SchedulingDT
 			}
 		}
 package SysADLports {
@@ -782,9 +789,15 @@ boundary component def TemperatureSensorCP {
 			}
 		action def SearchDBFuncionalAN ( qFunc : SysADL.types.DBQueryDT ) :
 			SysADL.types.DBSmartPlaceDT {
+			post-condition CheckSearchDBFunctionalEQ ( ) delegate qFunc to
+				CheckSearchDBFunctionalEQ.query delegate SearchDBFuncionalAN to
+				CheckSearchDBFunctionalEQ.response
 			}
 			action def SearchDBConfigAN ( qConfig : SysADL.types.DBQueryDT ) :
 			SysADL.types.DBSmartPlaceDT {
+			post-condition CheckSearchDBConfigEQ ( ) delegate qConfig to
+				CheckSearchDBConfigEQ.query delegate SearchDBConfigAN to
+				CheckSearchDBConfigEQ.response
 			}
 		
 		
@@ -849,7 +862,14 @@ boundary component def TemperatureSensorCP {
 			}
 		constraint CheckSearchDBFunctionalEQ ( query : SysADL.types.DBQueryDT ) : (
 			response : SysADL.types.DBSmartPlaceDT ) {
-				equation = ''
+				equation = 'query.date==response.DBLogTable.Date && query.RoomID == response.DBLogTable.RoomID && query.BuildID == response.DBLogTable.BuildingID'
+			}
+		constraint CheckSearchDBConfigEQ ( query : SysADL.types.DBQueryDT ) : ( response
+			: SysADL.types.DBSmartPlaceDT ) {
+				equation = '((query.RoomID != 0 && query.BuildingID != 0 && query.SchedulingID == 0 && query.UserID == 0) -> (response.DBConfigTable.RoomConfigTable.IdRoom == query.RoomID &&
+ response.DBConfigTable.RoomConfigTable.IdBuilding == query.BuildingID)) || ((query.RoomID == 0 && query.BuildingID != 0 && query.SchedulingID == 0 && query.UserID == 0) -> (response.DBConfigTable.RoomConfigTable.IdBuilding == query.BuildingID)) ||
+((query.RoomID == 0 && query.BuildingID == 0 && query.SchedulingID != 0 && query.UserID == 0) -> (response.DBConfigTable.SchedulingConfigTable.IdScheduling == query.SchedulingID )) ||
+((query.RoomID == 0 && query.BuildingID == 0 && query.SchedulingID == 0 && query.UserID != 0) -> (response.DBConfigTable.UserConfigTable.IdUser == query.UserID))'
 			}
 		}
 package SysADLconnectors {
